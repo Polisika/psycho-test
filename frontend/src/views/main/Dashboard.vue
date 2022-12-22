@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-card class="ma-3 pa-3">
       <v-card-title primary-title>
-        <div class="headline primary--text">Dashboard</div>
+        <div class="headline primary--text">Main page</div>
       </v-card-title>
       <v-card-text>
         <div class="headline font-weight-light ma-5">Welcome {{ greetedUser }}</div>
@@ -11,6 +11,14 @@
         <v-btn to="/main/profile/view">View Profile</v-btn>
         <v-btn to="/main/profile/edit">Edit Profile</v-btn>
         <v-btn to="/main/profile/password">Change Password</v-btn>
+      </v-card-actions>
+    </v-card>
+    <v-card class="ma-3 pa-3">
+      <v-card-title primary-title>
+        <div class="headline primary--text">Tests</div>
+      </v-card-title>
+      <v-card-actions>
+        <v-btn to="/main/profile/view">Start Shulte test</v-btn>
       </v-card-actions>
     </v-card>
   </v-container>
