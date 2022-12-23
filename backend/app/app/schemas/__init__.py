@@ -3,3 +3,4 @@ from .msg import Msg
 from .token import Token, TokenPayload
 from .user import User, UserCreate, UserInDB, UserUpdate
 from .test import Table, TableCreate
+from .instructions import InstructionsUpdate, Instructions, InstructionsCreate

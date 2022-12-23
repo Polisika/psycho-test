@@ -4,7 +4,7 @@ from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 
 from app.crud.base import CRUDBase
-from app.models.test import Table
+from app.models.table import Table
 from app.schemas.test import TableCreate, TableUpdate
 
 
@@ -29,4 +29,4 @@ class CRUDItem(CRUDBase[Table, TableCreate, TableUpdate]):
         )
 
 
-test = CRUDItem(Table)
+table = CRUDItem(Table)

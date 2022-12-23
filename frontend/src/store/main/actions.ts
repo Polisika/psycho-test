@@ -1,7 +1,7 @@
 import { api } from "@/api";
 import router from "@/router";
 import { getLocalToken, removeLocalToken, saveLocalToken } from "@/utils";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { getStoreAccessors } from "typesafe-vuex";
 import { ActionContext } from "vuex";
 import { State } from "../state";
@@ -14,6 +14,7 @@ import {
   commitSetUserProfile,
 } from "./mutations";
 import { AppNotification, MainState } from "./state";
+import { ITable } from "@/interfaces";
 
 type MainContext = ActionContext<MainState, State>;
 
@@ -182,6 +183,10 @@ export const actions = {
       });
     }
   },
+  async getTable(context: MainContext, payload: { password: string; token: string }) {
+    const result: AxiosResponse<ITable> = await api.getTable(payload.token);
+    return result.data.digits;
+  },
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -200,3 +205,4 @@ export const dispatchUpdateUserProfile = dispatch(actions.actionUpdateUserProfil
 export const dispatchRemoveNotification = dispatch(actions.removeNotification);
 export const dispatchPasswordRecovery = dispatch(actions.passwordRecovery);
 export const dispatchResetPassword = dispatch(actions.resetPassword);
+export const dispatchGetNumbers = dispatch(actions.getTable);

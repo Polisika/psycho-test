@@ -21,3 +21,15 @@ export interface IUserProfileCreate {
   is_active?: boolean;
   is_superuser?: boolean;
 }
+
+export interface ITable {
+  id: number;
+  owner_id: number;
+  digits: string;
+}
+
+export interface IInstruction {
+  id: number;
+  owner_id: number;
+  description: string;
+}

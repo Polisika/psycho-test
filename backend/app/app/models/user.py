@@ -5,9 +5,11 @@ from sqlalchemy.orm import relationship
 
 from app.db.base_class import Base
 
+
 if TYPE_CHECKING:
     from .item import Item  # noqa: F401
     from .test import Table  # noqa: F401
+    from .instruction import Instruction  # noqa: F401
 
 
 class User(Base):
@@ -19,3 +21,4 @@ class User(Base):
     is_superuser: bool = Column(Boolean(), default=False)
     items: List["Item"] = relationship("Item", back_populates="owner")
     tables: List["Table"] = relationship("Table", back_populates="owner")
+    instructions: List["Instruction"] = relationship("Instruction", back_populates="owner")

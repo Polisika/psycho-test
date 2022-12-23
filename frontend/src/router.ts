@@ -49,7 +49,12 @@ export default new Router({
             {
               path: "shulte",
               component: () =>
-                import(/* webpackChunkName: "shulte" */ "./views/main/Shulte.vue"),
+                import(/* webpackChunkName: "main-shulte" */ "./views/main/Shulte.vue"),
+            },
+            {
+              path: "table",
+              component: () =>
+                import(/* webpackChunkName: "main-table" */ "./views/main/Table.vue"),
             },
             {
               path: "profile",

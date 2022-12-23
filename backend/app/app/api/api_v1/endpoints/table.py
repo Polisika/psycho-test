@@ -11,7 +11,7 @@ import random
 router = APIRouter()
 
 
-@router.get("/generate", response_model=schemas.Table)
+@router.post("/generate", response_model=schemas.Table)
 def read_items(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_active_user),
@@ -22,45 +22,11 @@ def read_items(
     generator = [str(i) for i in range(1, 26)]
     random.shuffle(generator)
     item_in = schemas.TableCreate(digits=" ".join(generator))
-    result = crud.test.create_with_owner(db=db, obj_in=item_in, owner_id=current_user.id)
+    result = crud.table.create_with_owner(db=db, obj_in=item_in, owner_id=current_user.id)
     return result
 
 
-@router.post("/", response_model=schemas.Item)
-def create_item(
-    *,
-    db: Session = Depends(deps.get_db),
-    item_in: schemas.ItemCreate,
-    current_user: models.User = Depends(deps.get_current_active_user),
-) -> Any:
-    """
-    Create new item.
-    """
-    item = crud.item.create_with_owner(db=db, obj_in=item_in, owner_id=current_user.id)
-    return item
-
-
-@router.put("/{id}", response_model=schemas.Item)
-def update_item(
-    *,
-    db: Session = Depends(deps.get_db),
-    id: int,
-    item_in: schemas.ItemUpdate,
-    current_user: models.User = Depends(deps.get_current_active_user),
-) -> Any:
-    """
-    Update an item.
-    """
-    item = crud.item.get(db=db, id=id)
-    if not item:
-        raise HTTPException(status_code=404, detail="Item not found")
-    if not crud.user.is_superuser(current_user) and (item.owner_id != current_user.id):
-        raise HTTPException(status_code=400, detail="Not enough permissions")
-    item = crud.item.update(db=db, db_obj=item, obj_in=item_in)
-    return item
-
-
-@router.get("/{id}", response_model=schemas.Item)
+@router.get("/{id}", response_model=schemas.Table)
 def read_item(
     *,
     db: Session = Depends(deps.get_db),
@@ -70,7 +36,7 @@ def read_item(
     """
     Get item by ID.
     """
-    item = crud.item.get(db=db, id=id)
+    item = crud.table.get(db=db, id=id)
     if not item:
         raise HTTPException(status_code=404, detail="Item not found")
     if not crud.user.is_superuser(current_user) and (item.owner_id != current_user.id):

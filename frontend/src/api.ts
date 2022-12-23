@@ -1,6 +1,11 @@
 import axios, { AxiosResponse } from "axios";
 import { apiUrl } from "@/env";
-import { IUserProfile, IUserProfileUpdate, IUserProfileCreate } from "./interfaces";
+import {
+  IInstruction,
+  IUserProfile,
+  IUserProfileCreate,
+  IUserProfileUpdate,
+} from "./interfaces";
 
 function authHeaders(token: string) {
   return {
@@ -47,9 +52,12 @@ export const api = {
     });
   },
   async getInstructions() {
-    const response: AxiosResponse<string> = await axios.get(
-      `${apiUrl}/api/v1/tests/instructions`,
+    const response: AxiosResponse<IInstruction> = await axios.get(
+      `${apiUrl}/api/v1/instruction/`,
     );
-    return response.data;
+    return response.data.description;
+  },
+  async getTable(token: string) {
+    return await axios.post(`${apiUrl}/api/v1/tables/generate`, {}, authHeaders(token));
   },
 };

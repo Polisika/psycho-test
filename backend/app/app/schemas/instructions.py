@@ -28,10 +28,10 @@ class InstructionsInDBBase(InstructionsBase):
 
 
 # Properties to return to client
-class Item(InstructionsInDBBase):
+class Instructions(InstructionsInDBBase):
     pass
 
 
 # Properties stored in DB
-class ItemInDB(InstructionsInDBBase):
+class InstructionsInDB(InstructionsInDBBase):
     pass
