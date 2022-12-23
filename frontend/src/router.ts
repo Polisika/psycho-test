@@ -47,6 +47,11 @@ export default new Router({
                 ),
             },
             {
+              path: "shulte",
+              component: () =>
+                import(/* webpackChunkName: "shulte" */ "./views/main/Shulte.vue"),
+            },
+            {
               path: "profile",
               component: RouterComponent,
               redirect: "profile/view",

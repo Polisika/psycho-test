@@ -18,7 +18,7 @@
         <div class="headline primary--text">Tests</div>
       </v-card-title>
       <v-card-actions>
-        <v-btn to="/main/profile/view">Start Shulte test</v-btn>
+        <v-btn to="/main/shulte">Start Shulte test</v-btn>
       </v-card-actions>
     </v-card>
   </v-container>

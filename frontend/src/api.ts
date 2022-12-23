@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { apiUrl } from "@/env";
 import { IUserProfile, IUserProfileUpdate, IUserProfileCreate } from "./interfaces";
 
@@ -45,5 +45,11 @@ export const api = {
       new_password: password,
       token,
     });
+  },
+  async getInstructions() {
+    const response: AxiosResponse<string> = await axios.get(
+      `${apiUrl}/api/v1/tests/instructions`,
+    );
+    return response.data;
   },
 };
