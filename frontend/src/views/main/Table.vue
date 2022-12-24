@@ -20,6 +20,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { IInfo } from "@/interfaces";
+import { api } from "@/api";
 //import { api } from "@/api";
 
 @Component
@@ -36,12 +37,7 @@ export default class Table extends Vue {
   info: Array<IInfo> = [];
 
   async init() {
-    const r = {
-      data: {
-        digits: "1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25",
-        table_id: 1,
-      },
-    }; //await api.getTable(this.$store.state.main.token);
+    const r = await api.getTable(this.$store.state.main.token);
     this.currentIdx = 0;
     this.time = 0;
     this.choosedNumber = [];
@@ -54,7 +50,6 @@ export default class Table extends Vue {
     for (let i = 0; i < list.length; i += chunkSize)
       result.push(list.slice(i, i + chunkSize));
     this.numbers = result;
-    if (this.info.length === 2) alert("STOP");
   }
 
   async mounted() {
@@ -89,6 +84,9 @@ export default class Table extends Vue {
         choosedNumber: this.choosedNumber,
         table_id: this.table_id,
       });
+      if (this.info.length === 5) {
+        await api.createTests(this.$store.state.main.token, this.info);
+      }
       await this.init();
     }
   }

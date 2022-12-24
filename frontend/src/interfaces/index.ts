@@ -40,3 +40,12 @@ export interface IInfo {
   time: number;
   table_id: number;
 }
+
+export interface ITestResponse {
+  errors: string;
+  choosed_number: string;
+  time: number;
+  table_id: number;
+  id: number;
+  owner_id: number;
+}

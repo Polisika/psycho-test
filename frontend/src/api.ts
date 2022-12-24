@@ -1,7 +1,9 @@
 import axios, { AxiosResponse } from "axios";
 import { apiUrl } from "@/env";
 import {
+  IInfo,
   IInstruction,
+  ITestResponse,
   IUserProfile,
   IUserProfileCreate,
   IUserProfileUpdate,
@@ -60,7 +62,20 @@ export const api = {
   async getTable(token: string) {
     return await axios.post(`${apiUrl}/api/v1/tables/generate`, {}, authHeaders(token));
   },
-  // async createTestInfo(token: string) {
-  //   await axios.post(`${apiUrl}/api/v1/test`)
-  // }
+  async createTests(token: string, tests: Array<IInfo>) {
+    const ids: Array<number> = [];
+    for (const info of tests) {
+      const result: ITestResponse = await axios.post(
+        `${apiUrl}/api/v1/test`,
+        info,
+        authHeaders(token),
+      );
+      ids.push(result.id);
+    }
+    return await axios.post(
+      `${apiUrl}/api/v1/attempt`,
+      { tests: ids },
+      authHeaders(token),
+    );
+  },
 };

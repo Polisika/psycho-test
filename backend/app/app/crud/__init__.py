@@ -3,6 +3,7 @@ from .crud_user import user
 from .crud_table import table
 from .crud_instruction import instruction
 from .crud_test import test
+from .crud_attempt import attempt
 
 # For a new basic set of CRUD operations you could just do
 

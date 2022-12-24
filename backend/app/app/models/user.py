@@ -11,6 +11,7 @@ if TYPE_CHECKING:
     from .table import Table  # noqa: F401
     from .instruction import Instruction  # noqa: F401
     from .test import Test  # noqa: F401
+    from .attempt import Attempt  # noqa: F401
 
 
 class User(Base):
@@ -24,3 +25,4 @@ class User(Base):
     tables: List["Table"] = relationship("Table", back_populates="owner")
     instructions: List["Instruction"] = relationship("Instruction", back_populates="owner")
     tests: List["Test"] = relationship("Test", back_populates="owner")
+    attempts: List["Attempt"] = relationship("Attempt", back_populates="owner")
