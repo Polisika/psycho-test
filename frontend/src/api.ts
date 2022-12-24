@@ -22,7 +22,6 @@ export const api = {
     const params = new URLSearchParams();
     params.append("username", username);
     params.append("password", password);
-
     return axios.post(`${apiUrl}/api/v1/login/access-token`, params);
   },
   async getMe(token: string) {
@@ -70,7 +69,6 @@ export const api = {
         info,
         authHeaders(token),
       );
-      console.log(`TEST CREATED ${result.data.id}`);
       ids.push(result.data.id);
     }
     return await axios.post(

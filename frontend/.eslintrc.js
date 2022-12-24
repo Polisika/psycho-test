@@ -10,8 +10,6 @@ module.exports = {
     "!.eslintrc.js",
     "!.prettierrc.js",
     "node_modules/",
-    "shims-tsx.d.ts",
-    "shims-vue.d.ts",
   ],
   extends: [
     "eslint:recommended",
