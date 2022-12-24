@@ -80,9 +80,16 @@ export const api = {
     );
   },
   async getAnalytic(token: string, attempt_id: number) {
-    return await axios.get(
-      `${apiUrl}/api/v1/attempt/${attempt_id}`,
-      authHeaders(token),
-    );
+    const r = await axios.get(`${apiUrl}/api/v1/attempt`, authHeaders(token));
+    const result: Array<ITestResponse> = [];
+    for (const item of r.data.filter((x) => x.id == attempt_id)) {
+      const resp: AxiosResponse<ITestResponse> = await axios.get(
+        `${apiUrl}/api/v1/test/${item.test_id}`,
+        authHeaders(token),
+      );
+      result.push(resp.data);
+    }
+    console.log(JSON.stringify(result));
+    return result;
   },
 };

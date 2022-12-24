@@ -42,6 +42,7 @@ export default class Table extends Vue {
     this.currentIdx = 1;
     this.time = 0;
     this.choosedNumber = [];
+    this.errors = [];
     this.table_id = r.data.id;
     const list = r.data.digits.split(" ");
     for (let i = 0; i < 25; i++) this.styles.push(null);
@@ -82,12 +83,12 @@ export default class Table extends Vue {
       clearInterval(this.func);
       this.func = -1;
       this.info.push({
-        errors: this.errors.join("!"),
+        errors: this.errors.join(" "),
         time: this.time,
         choosed_number: this.choosedNumber.join(" "),
         table_id: this.table_id,
       });
-      if (this.info.length === 1) {
+      if (this.info.length === 3) {
         const resp: AxiosResponse<IAttemptResponse> = await api.createTests(
           this.$store.state.main.token,
           this.info,
