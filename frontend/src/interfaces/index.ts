@@ -53,3 +53,10 @@ export interface ITestResponse {
 export interface IAttemptResponse {
   attempt_id: number;
 }
+
+export interface IAttempt {
+  test_id: number;
+  id: number;
+  owner_id: number;
+  created: string;
+}

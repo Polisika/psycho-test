@@ -98,4 +98,7 @@ export const api = {
       authHeaders(token),
     );
   },
+  async getAttempts(token) {
+    return await axios.get(`${apiUrl}/api/v1/attempt`, authHeaders(token));
+  },
 };
