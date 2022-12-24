@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <div style="text-align: center; padding-top: 1%">{{ time }} seconds</div>
-    <div style="text-align: center; padding-top: 1%">Find {{ source[currentIdx] }}</div>
+    <div style="text-align: center; padding-top: 1%">Find {{ currentIdx }}</div>
     <div class="table">
       <div v-for="(row, idx) in numbers" :key="idx" class="row">
         <div v-for="digit in row" :key="digit" class="cell" @click="onClick(digit)">
@@ -19,16 +19,17 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { IInfo } from "@/interfaces";
+import { IAttemptResponse, IInfo } from "@/interfaces";
 import { api } from "@/api";
+import { AxiosResponse } from "axios";
 //import { api } from "@/api";
 
 @Component
 export default class Table extends Vue {
   numbers: Array<Array<string>> = [];
-  errors: Array<Array<string>> = [];
+  errors: Array<string> = [];
   styles: Array<string | null> = [];
-  currentIdx = 0;
+  currentIdx = 1;
   source: Array<string> = [];
   choosedNumber: Array<string> = [];
   time = 0;
@@ -38,10 +39,10 @@ export default class Table extends Vue {
 
   async init() {
     const r = await api.getTable(this.$store.state.main.token);
-    this.currentIdx = 0;
+    this.currentIdx = 1;
     this.time = 0;
     this.choosedNumber = [];
-    this.table_id = r.data.table_id;
+    this.table_id = r.data.id;
     const list = r.data.digits.split(" ");
     for (let i = 0; i < 25; i++) this.styles.push(null);
     this.source = list;
@@ -62,32 +63,41 @@ export default class Table extends Vue {
         this.time++;
       }, 1000);
 
-    if (this.source[this.currentIdx] != digit) {
-      this.errors.push([digit, this.time]);
-      this.styles[this.source.findIndex((x) => x == digit)] = "red";
+    if (this.currentIdx != digit) {
+      this.errors.push(`${digit}@${this.time}`);
+      const _idx = this.source.findIndex((x) => x == digit);
+      this.styles[_idx] = "red";
     } else {
       for (const [idx, el] of this.styles.entries()) {
         if (el == "red") this.styles[idx] = null;
       }
-      this.styles[this.currentIdx] = null;
       this.currentIdx++;
     }
     this.$forceUpdate();
     this.choosedNumber.push(digit);
 
-    if (this.currentIdx == this.source.length) {
+    if (this.currentIdx === 3) {
+      // == this.source.length + 1) {
+      this.currentIdx = 1;
       clearInterval(this.func);
       this.func = -1;
       this.info.push({
-        errors: this.errors,
+        errors: this.errors.join("!"),
         time: this.time,
-        choosedNumber: this.choosedNumber,
+        choosed_number: this.choosedNumber.join(" "),
         table_id: this.table_id,
       });
-      if (this.info.length === 5) {
-        await api.createTests(this.$store.state.main.token, this.info);
-      }
-      await this.init();
+      if (this.info.length === 1) {
+        const resp: AxiosResponse<IAttemptResponse> = await api.createTests(
+          this.$store.state.main.token,
+          this.info,
+        );
+        const at_id = resp.data.attempt_id;
+        await this.$router.push({
+          name: "main-analytic",
+          params: { attempt: at_id.toString() },
+        });
+      } else await this.init();
     }
   }
 }

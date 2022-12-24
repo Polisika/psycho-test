@@ -85,6 +85,14 @@ export default new Router({
               ],
             },
             {
+              path: "analytic/:attempt",
+              name: "main-analytic",
+              component: () =>
+                import(
+                  /* webpackChunkName: "main-analytic" */ "./views/main/Analytic.vue"
+                ),
+            },
+            {
               path: "admin",
               component: () =>
                 import(

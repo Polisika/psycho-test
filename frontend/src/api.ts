@@ -65,16 +65,23 @@ export const api = {
   async createTests(token: string, tests: Array<IInfo>) {
     const ids: Array<number> = [];
     for (const info of tests) {
-      const result: ITestResponse = await axios.post(
+      const result: AxiosResponse<ITestResponse> = await axios.post(
         `${apiUrl}/api/v1/test`,
         info,
         authHeaders(token),
       );
-      ids.push(result.id);
+      console.log(`TEST CREATED ${result.data.id}`);
+      ids.push(result.data.id);
     }
     return await axios.post(
       `${apiUrl}/api/v1/attempt`,
       { tests: ids },
+      authHeaders(token),
+    );
+  },
+  async getAnalytic(token: string, attempt_id: number) {
+    return await axios.get(
+      `${apiUrl}/api/v1/attempt/${attempt_id}`,
       authHeaders(token),
     );
   },

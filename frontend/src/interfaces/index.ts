@@ -35,8 +35,8 @@ export interface IInstruction {
 }
 
 export interface IInfo {
-  errors: Array<Array<string>>;
-  choosedNumber: Array<string>;
+  errors: string;
+  choosed_number: string;
   time: number;
   table_id: number;
 }
@@ -48,4 +48,8 @@ export interface ITestResponse {
   table_id: number;
   id: number;
   owner_id: number;
+}
+
+export interface IAttemptResponse {
+  attempt_id: number;
 }
