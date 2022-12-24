@@ -30,7 +30,7 @@
         </v-card-title>
         <v-card-text>
           <div class="headline font-weight-light ma-5">
-            Errors num: {{ item.errors.split(" ").length - 1 }}
+            Errors num: {{ item.errors ? item.errors.split(" ").length : 0 }}
           </div>
           <div class="headline font-weight-light ma-5">
             Time {{ item.time }} seconds
@@ -77,7 +77,8 @@ export default class Table extends Vue {
 
     this.result = await api.getAnalytic(this.$store.state.main.token, attempt_id);
     for (let i = 0; i < this.result.length; i++) {
-      this.agg_err += this.result[i].errors.split(" ").length;
+      const err_l = this.result[i].errors ? this.result[i].errors.split(" ").length : 0;
+      this.agg_err += err_l;
       this.agg_time += this.result[i].time;
     }
     this.agg_err /= this.result.length;
