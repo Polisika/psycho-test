@@ -54,7 +54,7 @@ def update_item(
     return item
 
 
-@router.delete("/{id}", response_model=schemas.Item)
+@router.delete("/{id}", response_model=schemas.Instructions)
 def delete_item(
     *,
     db: Session = Depends(deps.get_db),
@@ -64,7 +64,7 @@ def delete_item(
     """
     Delete an item.
     """
-    item = crud.item.get(db=db, id=id)
+    item = crud.instruction.get(db=db, id=id)
     if not item:
         raise HTTPException(status_code=404, detail="Item not found")
     if not crud.user.is_superuser(current_user):

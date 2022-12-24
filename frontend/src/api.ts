@@ -60,4 +60,7 @@ export const api = {
   async getTable(token: string) {
     return await axios.post(`${apiUrl}/api/v1/tables/generate`, {}, authHeaders(token));
   },
+  // async createTestInfo(token: string) {
+  //   await axios.post(`${apiUrl}/api/v1/test`)
+  // }
 };

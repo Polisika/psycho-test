@@ -33,3 +33,10 @@ export interface IInstruction {
   owner_id: number;
   description: string;
 }
+
+export interface IInfo {
+  errors: Array<Array<string>>;
+  choosedNumber: Array<string>;
+  time: number;
+  table_id: number;
+}
