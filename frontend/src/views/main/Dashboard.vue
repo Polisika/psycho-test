@@ -28,7 +28,8 @@
         <v-card-text>
           <a class="headline main" @click="onClick(item[0])">
             Attempt #{{ idx }} date {{ item[1].split("T")[0] }} time
-            {{ item[1].split("T")[1].slice(0, 8) }}
+            {{ item[1].split("T")[1].slice(0, 8) }} from
+            {{ item[2] }}
           </a>
         </v-card-text>
       </div>
@@ -45,7 +46,8 @@ import { IAttempt } from "@/interfaces";
 @Component
 export default class Dashboard extends Vue {
   attempts: Array<Array<string>> = [];
-
+  user2name = {};
+  this_profile = "1";
   async onClick(amt) {
     await this.$router.push({
       name: "main-analytic",
@@ -55,6 +57,7 @@ export default class Dashboard extends Vue {
   get greetedUser() {
     const userProfile = readUserProfile(this.$store);
     if (userProfile) {
+      if (userProfile.id) this.this_profile = userProfile.id.toString();
       if (userProfile.full_name) {
         return userProfile.full_name;
       } else {
@@ -70,17 +73,25 @@ export default class Dashboard extends Vue {
     return result;
   }
   async mounted() {
+    const full_users = (await api.getUsers(this.$store.state.main.token)).data;
+    for (let i = 0; i < full_users.length; i++) {
+      this.user2name[full_users[i].id.toString()] = full_users[i].full_name;
+    }
+
     const ids = Array<number>();
     const dates = Array<string>();
+    const users = Array<string>();
     const resp: Array<IAttempt> = (await api.getAttempts(this.$store.state.main.token))
       .data;
     for (let i = 0; i < resp.length; i++) {
+      const ow_id = resp[i].owner_id.toString();
+      users.push(ow_id === this.this_profile ? "you" : this.user2name[ow_id]);
       ids.push(resp[i].id);
       dates.push(resp[i].created);
     }
     const indices = this.onlyUnique(ids);
     for (const i of indices) {
-      this.attempts.push([ids[i].toString(), dates[i]]);
+      this.attempts.push([ids[i].toString(), dates[i], users[i]]);
     }
   }
 }
