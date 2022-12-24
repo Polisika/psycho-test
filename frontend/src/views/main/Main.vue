@@ -62,6 +62,22 @@
               <v-list-item-title>Create User</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
+          <v-list-item to="/main/admin/users/create">
+            <v-list-item-action>
+              <v-icon>mdi-pencil</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Edit instruction</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item to="/main/admin/users/create">
+            <v-list-item-action>
+              <v-icon>mdi-pencil</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Edit result interpretation</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
         </v-list>
         <v-spacer></v-spacer>
         <v-list>

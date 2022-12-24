@@ -77,8 +77,7 @@ export default class Table extends Vue {
     this.$forceUpdate();
     this.choosedNumber.push(digit);
 
-    if (this.currentIdx === 3) {
-      // == this.source.length + 1) {
+    if (this.currentIdx === this.source.length + 1) {
       this.currentIdx = 1;
       clearInterval(this.func);
       this.func = -1;
@@ -88,7 +87,7 @@ export default class Table extends Vue {
         choosed_number: this.choosedNumber.join(" "),
         table_id: this.table_id,
       });
-      if (this.info.length === 3) {
+      if (this.info.length === 5) {
         const resp: AxiosResponse<IAttemptResponse> = await api.createTests(
           this.$store.state.main.token,
           this.info,
