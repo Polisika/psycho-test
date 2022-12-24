@@ -89,7 +89,13 @@ export const api = {
       );
       result.push(resp.data);
     }
-    console.log(JSON.stringify(result));
     return result;
+  },
+  async setInstructions(token: string, instructions: string) {
+    return await axios.put(
+      `${apiUrl}/api/v1/instruction/1`,
+      { description: instructions },
+      authHeaders(token),
+    );
   },
 };

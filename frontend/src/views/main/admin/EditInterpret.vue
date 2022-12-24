@@ -1,92 +1,60 @@
 <template>
   <v-container fluid>
-
+    <v-card class="ma-3 pa-3">
+      <v-card-title primary-title>
+        <div class="headline">Average error num text</div>
+      </v-card-title>
+      <v-text-field v-model="err" required />
+      <v-card-title primary-title>
+        <div class="headline">Warmup coefficient text</div>
+      </v-card-title>
+      <v-text-field v-model="we" required />
+      <v-card-title primary-title>
+        <div class="headline">Warmup coefficient interpretation text</div>
+      </v-card-title>
+      <v-textarea v-model="we_int" required />
+      <v-card-title primary-title>
+        <div class="headline">Psychological stability coefficient text</div>
+      </v-card-title>
+      <v-text-field v-model="ps" required />
+      <v-card-title primary-title>
+        <div class="headline">Psychological stability interpretation text</div>
+      </v-card-title>
+      <v-textarea v-model="ps_int" required />
+      <v-btn @click="onClick()">Save</v-btn>
+    </v-card>
   </v-container>
 </template>
 
 <script lang="ts">
+import { api } from "@/api";
 import { Component, Vue } from "vue-property-decorator";
-import { IUserProfileUpdate } from "@/interfaces";
-import { dispatchGetUsers, dispatchUpdateUser } from "@/store/admin/actions";
-import { readAdminOneUser } from "@/store/admin/getters";
-import { ValidationProvider, ValidationObserver, extend } from "vee-validate";
-import { required, confirmed, email } from "vee-validate/dist/rules";
 
-extend("required", { ...required, message: "{_field_} can not be empty" });
-extend("confirmed", { ...confirmed, message: "Passwords do not match" });
-extend("email", { ...email, message: "Invalid email address" });
-
-@Component({
-  components: {
-    ValidationObserver,
-    ValidationProvider,
-  },
-})
+@Component
 export default class EditUser extends Vue {
-  $refs!: {
-    observer: InstanceType<typeof ValidationObserver>;
-  };
-
-  public valid = true;
-  public fullName = "";
-  public email = "";
-  public isActive = true;
-  public isSuperuser = false;
-  public setPassword = false;
-  public password1 = "";
-  public password2 = "";
+  remains = "";
+  err = "";
+  we = "";
+  we_int = "";
+  ps = "";
+  ps_int = "";
 
   public async mounted() {
-    await dispatchGetUsers(this.$store);
-    this.onReset();
+    const inter = (await api.getInstructions()).split("@@");
+    this.remains = inter[0];
+    this.err = inter[1];
+    this.we = inter[2];
+    this.we_int = inter[3];
+    this.ps = inter[4];
+    this.ps_int = inter[5];
   }
 
-  public onReset() {
-    this.setPassword = false;
-    this.password1 = "";
-    this.password2 = "";
-    this.$refs.observer.reset();
-    if (this.user) {
-      this.fullName = this.user.full_name;
-      this.email = this.user.email;
-      this.isActive = this.user.is_active;
-      this.isSuperuser = this.user.is_superuser;
-    }
-  }
-
-  public cancel() {
-    this.$router.back();
-  }
-
-  public async onSubmit() {
-    const success = await this.$refs.observer.validate();
-    if (!success) {
-      return;
-    }
-
-    const updatedProfile: IUserProfileUpdate = {};
-    if (this.fullName) {
-      updatedProfile.full_name = this.fullName;
-    }
-    if (this.email) {
-      updatedProfile.email = this.email;
-    }
-    updatedProfile.is_active = this.isActive;
-    updatedProfile.is_superuser = this.isSuperuser;
-    if (this.setPassword) {
-      updatedProfile.password = this.password1;
-    }
-    if (this.user) {
-      await dispatchUpdateUser(this.$store, {
-        id: this.user.id,
-        user: updatedProfile,
-      });
-    }
-    this.$router.push("/main/admin/users");
-  }
-
-  get user() {
-    return readAdminOneUser(this.$store)(+this.$router.currentRoute.params.id);
+  public async onClick() {
+    await api.setInstructions(
+      this.$store.state.main.token,
+      `${this.remains}@@${this.err}@@${this.we}@@${this.we_int}@@${this.ps}@@${this.ps_int}`,
+    );
+    await this.$router.push("/main/dashboard");
   }
 }
 </script>

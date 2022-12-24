@@ -120,6 +120,22 @@ export default new Router({
                     ),
                 },
                 {
+                  path: "instruction",
+                  name: "main-admin-instruction",
+                  component: () =>
+                    import(
+                      /* webpackChunkName: "main-admin-instruction" */ "./views/main/admin/EditInstruction.vue"
+                    ),
+                },
+                {
+                  path: "interpretation",
+                  name: "main-admin-interpretation",
+                  component: () =>
+                    import(
+                      /* webpackChunkName: "main-admin-instruction" */ "./views/main/admin/EditInterpret.vue"
+                    ),
+                },
+                {
                   path: "users/create",
                   name: "main-admin-users-create",
                   component: () =>

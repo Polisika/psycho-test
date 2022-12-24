@@ -22,7 +22,6 @@ import { Component, Vue } from "vue-property-decorator";
 import { IAttemptResponse, IInfo } from "@/interfaces";
 import { api } from "@/api";
 import { AxiosResponse } from "axios";
-//import { api } from "@/api";
 
 @Component
 export default class Table extends Vue {

@@ -62,7 +62,7 @@
               <v-list-item-title>Create User</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item to="/main/admin/users/create">
+          <v-list-item to="/main/admin/instruction">
             <v-list-item-action>
               <v-icon>mdi-pencil</v-icon>
             </v-list-item-action>
@@ -70,7 +70,7 @@
               <v-list-item-title>Edit instruction</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item to="/main/admin/users/create">
+          <v-list-item to="/main/admin/interpretation">
             <v-list-item-action>
               <v-icon>mdi-pencil</v-icon>
             </v-list-item-action>
