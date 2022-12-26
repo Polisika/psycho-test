@@ -91,7 +91,7 @@ export default class Dashboard extends Vue {
     }
     const indices = this.onlyUnique(ids);
     for (const i of indices) {
-      this.attempts.push([ids[i].toString(), dates[i], users[i]]);
+      if (ids[i] > 450) this.attempts.push([ids[i].toString(), dates[i], users[i]]);
     }
   }
 }

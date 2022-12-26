@@ -93,7 +93,6 @@ def delete_item(
     *,
     db: Session = Depends(deps.get_db),
     id: int,
-    test_id: int,
     current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
     """
@@ -104,5 +103,5 @@ def delete_item(
         raise HTTPException(status_code=404, detail="Test not found")
     if not crud.user.is_superuser(current_user) and (test.owner_id != current_user.id):
         raise HTTPException(status_code=400, detail="Not enough permissions")
-    test = crud.attempt.remove(db=db, id=id, test_id=test_id)
+    test = crud.attempt.remove(db=db, id=id)
     return test
